@@ -25,7 +25,7 @@ char* rainbowbadge(unsigned int action)
   unsigned int x,y,i;
   
   switch(action) {
-     case act_name : return("YOURNAMEHERE");
+     case act_name : return("RAINBOW");
      case act_help : return("A place to put\nyour name");
      case act_init :
          // add any code here that needs to run once at powerup - e.g. hardware detection/initialisation      
