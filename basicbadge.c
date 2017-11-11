@@ -10,8 +10,13 @@
 #define s_run 1
 #define s_freeze 2
 
+//#define screen_char_width 21
+#define theme_bgcolor rgbto16(100,120,168)
+#define theme_namecolor butcol
+#define theme_taglinecolor whi
+
 #define name_handle "name"
-#define name_tagline "something\n  to say"
+#define name_tagline "something to say"
 
 
 char* basicbadge(unsigned int action)
@@ -34,6 +39,7 @@ char* basicbadge(unsigned int action)
          // called once when app is selected from menu
          state=s_start;
          colour=1;
+         plotblock(0, 0, dispwidth, dispheight, theme_bgcolor);
          return(0);         
     } //switch
  
@@ -47,8 +53,8 @@ char* basicbadge(unsigned int action)
  switch(state) {
      case s_start :
        //printf(cls top butcol "EXIT" bot "Clear   Colour Freeze");
-       printf(tabx2 taby6 butcol name_handle);
-       printf(tabx2 taby7 whi name_tagline);
+       printf(tabx2 taby6 theme_namecolor name_handle);
+       printf(tabx2 taby7 theme_taglinecolor name_tagline);
        
        state=s_run;
        
@@ -76,5 +82,3 @@ char* basicbadge(unsigned int action)
  return(0);
  
 }
- 
- 
