@@ -11,7 +11,7 @@
 #define s_freeze 2
 
 #define name_handle "name"
-#define name_tagline "something\n   to say"
+#define name_tagline "something\n  to say"
 
 
 char* basicbadge(unsigned int action)
