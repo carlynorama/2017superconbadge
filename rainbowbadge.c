@@ -10,10 +10,17 @@
 #define s_run 1
 #define s_freeze 2
 
+//theme_bgcolor not used in this case
 //#define screen_char_width 21
 #define theme_bgcolor rgbto16(100,120,168)
 #define theme_namecolor butcol
 #define theme_taglinecolor whi
+
+//the last color sops up any remainder. For 7 colors it's only about a pixel. 
+#define rainbow_numberofcolors 7
+const unsigned short rainbowcols[rainbow_numberofcolors] = {
+    rgbto16(255,0,0), rgbto16(255,165,0), rgbto16(255,255,0), rgbto16(0,128,0), rgbto16(0,0,255), rgbto16(75,0,130), rgbto16(238,130,238)
+};
 
 #define name_handle "name"
 #define name_tagline "something to say"
@@ -26,7 +33,7 @@ char* rainbowbadge(unsigned int action)
   
   switch(action) {
      case act_name : return("RAINBOW");
-     case act_help : return("A place to put\nyour name");
+     case act_help : return("Show your colors");
      case act_init :
          // add any code here that needs to run once at powerup - e.g. hardware detection/initialisation      
             return(0);   
@@ -39,13 +46,12 @@ char* rainbowbadge(unsigned int action)
          // called once when app is selected from menu
          state=s_start;
          colour=1;
-         plotblock(0, 0, dispwidth, 20, rgbto16(255,0,0));
-         plotblock(0, 20, dispwidth, 20, rgbto16(255,165,0));
-         plotblock(0, 40, dispwidth, 20, rgbto16(255,255,0));
-         plotblock(0, 60, dispwidth, 20, rgbto16(0,128,0));
-         plotblock(0, 80, dispwidth, 20, rgbto16(0,0,255));
-         plotblock(0, 100, dispwidth, 20, rgbto16(75,0,130));
-         plotblock(0, 120, dispwidth, 20, rgbto16(238,130,238));
+         unsigned int barheight = dispheight/rainbow_numberofcolors;
+         for( i  = 0; i < rainbow_numberofcolors-1; i = i + 1 ){
+             plotblock(0, i*barheight, dispwidth, barheight, rainbowcols[i]);
+         }
+
+
          return(0);         
     } //switch
  
@@ -58,7 +64,6 @@ char* rainbowbadge(unsigned int action)
  
  switch(state) {
      case s_start :
-       //printf(cls top butcol "EXIT" bot "Clear   Colour Freeze");
        printf(tabx2 taby6 theme_namecolor name_handle);
        printf(tabx2 taby7 theme_taglinecolor name_tagline);
        
@@ -75,13 +80,6 @@ char* rainbowbadge(unsigned int action)
        break;
  
  } // switch state
- 
- if(butpress & but1) state=s_start;  // clear screen & restart
- if(butpress & but2) if(++colour==8) colour=1;
- 
- 
-     
-       
  
  if(butpress & powerbut) return(""); // exit with nonzero value to indicate we want to quit
 
